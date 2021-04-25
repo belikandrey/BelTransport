@@ -7,6 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -14,10 +17,16 @@ import java.util.Objects;
 @Table(name = "rides")
 public class Ride {
     private Integer id;
+
+    @NotBlank
+    @Size(min = 3, max = 55, message = "Location length should be more than 3 and less than 55")
     private String startLocation;
+    @NotBlank
+    @Size(min = 3, max = 55, message = "Location length should be more than 3 and less than 55")
     private String endLocation;
     private Timestamp startDate;
     private Timestamp endDate;
+    @Min(value = 1, message = "Price should be more than 1")
     private Double price;
     private Integer landingSides;
     private Driver driverByDriverId;

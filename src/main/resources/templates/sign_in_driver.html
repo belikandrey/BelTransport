@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>Sign in as driver!</h1>
+
+<form action="#" th:action="@{/sign-in-driver}" th:object="${driver}" method="post">
+    <label for="phoneNumber">Phone number</label>
+    <input type="text" th:field="*{phoneNumber}" id="phoneNumber" placeholder="phoneNumber">
+    <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
+
+
+    <br>
+
+    <label for="login">Login</label>
+    <input type="text" th:field="*{login}" id="login" placeholder="Login">
+    <span th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></span>
+    <br>
+
+    <label for="password">Password</label>
+    <input type="text" th:field="*{password}" id="password" placeholder="Password">
+    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+    <div th:if="${#fields.hasErrors('global')}">
+        <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error"></p>
+    </div>
+
+    <br>
+
+    <h2>Info about vehicle</h2>
+
+    <br>
+    <label for="vehicleModel">Vehicle model</label>
+    <input type="text" th:field="*{vehicle.model}" id="vehicleModel" placeholder="Vehicle model">
+    <span th:if="${#fields.hasErrors('vehicle.model')}" th:errors="*{vehicle.model}"></span>
+
+    <br>
+
+    <label for="vehicleNumber">Vehicle number </label>
+    <input type="text" th:field="*{vehicle.number}" id="vehicleNumber" placeholder="Vehicle number">
+    <span th:if="${#fields.hasErrors('vehicle.number')}" th:errors="*{vehicle.number}"></span>
+    <br>
+
+    <label for="vehicleType">Vehicle type</label>
+    <input type="text" th:field="*{vehicle.type}" id="vehicleType" placeholder="Vehicle type">
+    <span th:if="${#fields.hasErrors('vehicle.type')}" th:errors="*{vehicle.type}"></span>
+
+    <input type="submit" value="Sign in!">
+</form>
+</body>
+</html>

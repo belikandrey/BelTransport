@@ -1,86 +1,101 @@
 package by.bsuir.beltransport.entity;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
-    private Integer id;
-    private String login;
-    private String password;
-    private Role role;
-    private Status status;
+  private Integer id;
 
-    @Id
-    @Column(name = "id")
-    public Integer getId() {
-        return id;
-    }
+  @NotBlank(message = "Login should be be not blank")
+  @Size(min = 3, max = 35, message = "Login length should be more than 3 and less than 35")
+  private String login;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  @NotBlank(message = "Password should be not blank")
+  @Size(min = 5, max = 75, message = "Password length should be more than 5 and less than 75")
+  private String password;
 
-    //Basic
-    @Column(name = "login")
-    public String getLogin() {
-        return login;
-    }
+  private Role role;
+  private Status status;
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
+  @Id
+  @Column(name = "id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  public Integer getId() {
+    return id;
+  }
 
-    //@Basic
-    @Column(name = "password")
-    public String getPassword() {
-        return password;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  // Basic
+  @Column(name = "login")
+  public String getLogin() {
+    return login;
+  }
 
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
-    public Role getRole() {
-        return role;
-    }
+  public void setLogin(String login) {
+    this.login = login;
+  }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
+  // @Basic
+  @Column(name = "password")
+  public String getPassword() {
+    return password;
+  }
 
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    public Status getStatus() {
-        return status;
-    }
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
+  @Column(name = "role")
+  @Enumerated(EnumType.STRING)
+  public Role getRole() {
+    return role;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(login, user.login) && Objects.equals(password, user.password) && Objects.equals(role, user.role) && Objects.equals(status, user.status);
-    }
+  public void setRole(Role role) {
+    this.role = role;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, login, password, role, status);
-    }
+  @Column(name = "status")
+  @Enumerated(EnumType.STRING)
+  public Status getStatus() {
+    return status;
+  }
+
+  public void setStatus(Status status) {
+    this.status = status;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    User user = (User) o;
+    return Objects.equals(id, user.id)
+        && Objects.equals(login, user.login)
+        && Objects.equals(password, user.password)
+        && Objects.equals(role, user.role)
+        && Objects.equals(status, user.status);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, login, password, role, status);
+  }
 }

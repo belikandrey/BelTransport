@@ -6,66 +6,73 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 public class Payment {
-    private Integer id;
-    private Timestamp paymentDate;
-    private Double price;
-    private PaymentType type;
+  private Integer id;
+  private Timestamp paymentDate;
 
-    @Id
-    @Column(name = "id")
-    public Integer getId() {
-        return id;
-    }
+  @Min(value = 1, message = "Price should be more than 1")
+  private Double price;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  private PaymentType type;
 
-    @Basic
-    @Column(name = "payment_date")
-    public Timestamp getPaymentDate() {
-        return paymentDate;
-    }
+  @Id
+  @Column(name = "id")
+  public Integer getId() {
+    return id;
+  }
 
-    public void setPaymentDate(Timestamp paymentDate) {
-        this.paymentDate = paymentDate;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    @Basic
-    @Column(name = "price")
-    public Double getPrice() {
-        return price;
-    }
+  @Basic
+  @Column(name = "payment_date")
+  public Timestamp getPaymentDate() {
+    return paymentDate;
+  }
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
+  public void setPaymentDate(Timestamp paymentDate) {
+    this.paymentDate = paymentDate;
+  }
 
-    @Column(name = "type")
-    @Enumerated(EnumType.STRING)
-    public PaymentType getType() {
-        return type;
-    }
+  @Basic
+  @Column(name = "price")
+  public Double getPrice() {
+    return price;
+  }
 
-    public void setType(PaymentType type) {
-        this.type = type;
-    }
+  public void setPrice(Double price) {
+    this.price = price;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Payment payment = (Payment) o;
-        return Objects.equals(id, payment.id) && Objects.equals(paymentDate, payment.paymentDate) && Objects.equals(price, payment.price) && Objects.equals(type, payment.type);
-    }
+  @Column(name = "type")
+  @Enumerated(EnumType.STRING)
+  public PaymentType getType() {
+    return type;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, paymentDate, price, type);
-    }
+  public void setType(PaymentType type) {
+    this.type = type;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Payment payment = (Payment) o;
+    return Objects.equals(id, payment.id)
+        && Objects.equals(paymentDate, payment.paymentDate)
+        && Objects.equals(price, payment.price)
+        && Objects.equals(type, payment.type);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, paymentDate, price, type);
+  }
 }
