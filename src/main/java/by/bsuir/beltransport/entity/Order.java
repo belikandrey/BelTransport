@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.Objects;
 
@@ -12,7 +13,9 @@ import java.util.Objects;
 @Table(name = "orders")
 public class Order {
     private Integer id;
-    private Client clientByClientId;
+    private Client client;
+    private Ride ride;
+    private Payment payment;
 
     @Id
     @Column(name = "id")
@@ -32,6 +35,26 @@ public class Order {
         return Objects.equals(id, order.id);
     }
 
+    @ManyToOne
+    @JoinColumn(name="ride_id", referencedColumnName = "id", nullable = false)
+    public Ride getRide() {
+        return ride;
+    }
+
+    public void setRide(Ride ride) {
+        this.ride = ride;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "payment_id", referencedColumnName = "id", nullable = false)
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
@@ -39,11 +62,11 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "client_id", referencedColumnName = "id", nullable = false)
-    public Client getClientsByClientId() {
-        return clientByClientId;
+    public Client getClient() {
+        return client;
     }
 
-    public void setClientsByClientId(Client clientByClientId) {
-        this.clientByClientId = clientByClientId;
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

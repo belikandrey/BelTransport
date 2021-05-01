@@ -21,7 +21,7 @@
     <br>
 
     <label for="email">Email</label>
-    <input type="text" th:field="*{email}" id="email" placeholder="Email">
+    <input type="email" th:field="*{email}" id="email" placeholder="Email">
     <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
     <br>
 
@@ -37,7 +37,7 @@
     <br>
 
     <label for="password">Password</label>
-    <input type="text" th:field="*{password}" id="password" placeholder="Password">
+    <input type="password" th:field="*{password}" id="password" placeholder="Password">
     <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
     <div th:if="${#fields.hasErrors('global')}">
         <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error"></p>

@@ -51,18 +51,21 @@ public class HomeController {
       return "join";
     }
     final User userFromDb = userOptional.get();
-    String pageUrl = getPageUrlAfterJoin(userFromDb);
-    session.setAttribute("user", user);
-    return pageUrl;
+    return getPageUrlAfterJoin(userFromDb, session);
   }
 
-  private String getPageUrlAfterJoin(User user) {
+  private String getPageUrlAfterJoin(User user, HttpSession session) {
     String pageUrl = "redirect:/";
     if (user instanceof Client) {
+      final Client client = (Client) user;
+      session.setAttribute("client", client);
       pageUrl += "client";
     } else if (user instanceof Driver) {
+      final Driver driver = (Driver) user;
+      session.setAttribute("driver", driver);
       pageUrl += "driver";
     } else {
+      session.setAttribute("admin", user);
       pageUrl += "admin";
     }
     return pageUrl;

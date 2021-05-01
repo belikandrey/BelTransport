@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"><head>
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+</head>
+<body>
+<h1>All orders : </h1>
+<table>
+  <tr>
+    <th>Ride start location</th>
+    <th>Ride end location</th>
+    <th>Ride start date</th>
+    <th>Ride end date</th>
+    <th>Price</th>
+    <th>Driver phone number</th>
+    <th>Payment type</th>
+  </tr>
+  <tr th:each="order : ${orders}">
+    <td th:text="${order.ride.startLocation}"></td>
+    <td th:text="${order.ride.endLocation}"></td>
+    <td th:text="${order.ride.startDate}"></td>
+    <td th:text="${order.ride.endDate}"></td>
+    <td th:text="${order.ride.price}"></td>
+    <td th:text="${order.ride.driverByDriverId.phoneNumber}"></td>
+    <td th:text="${order.payment.type}"></td>
+  </tr>
+</table>
+</body>
+</html>

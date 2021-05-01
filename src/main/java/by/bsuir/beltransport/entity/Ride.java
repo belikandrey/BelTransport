@@ -116,11 +116,11 @@ public class Ride {
 
     @ManyToOne
     @JoinColumn(name = "driver_id", referencedColumnName = "id", nullable = false)
-    public Driver getDriversByDriverId() {
+    public Driver getDriverByDriverId() {
         return driverByDriverId;
     }
 
-    public void setDriversByDriverId(Driver driverByDriverId) {
+    public void setDriverByDriverId(Driver driverByDriverId) {
         this.driverByDriverId = driverByDriverId;
     }
 }

@@ -14,7 +14,7 @@
     <span th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></span>
     <br>
     <label for="password">Password</label>
-    <input type="text" th:field="*{password}" id="password" placeholder="Password">
+    <input type="password" th:field="*{password}" id="password" placeholder="Password">
     <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
     <div th:if="${#fields.hasErrors('global')}">
         <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error"></p>
