@@ -30,7 +30,7 @@
     <td th:text="${ride.driverByDriverId.vehicle.type}"></td>
     <td th:text="${ride.driverByDriverId.vehicle.model}"></td>
     <td th:text="${ride.driverByDriverId.vehicle.number}"></td>
-    <td><button>Order this</button></td>
+    <td><a th:href="@{/client/available-rides/{rideId}(rideId=${ride.id})}"><button>Order it</button></a></td>
   </tr>
 </table>
 

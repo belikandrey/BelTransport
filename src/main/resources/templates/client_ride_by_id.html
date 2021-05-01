@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"><head>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Ride : </h1>
+<p>Start location </p><p th:text="${ride.startLocation}"></p>
+<p>End location</p><p th:text="${ride.endLocation}"></p>
+<p>Start date</p><p th:text="${ride.startDate}"></p>
+<p>End date</p><p th:text="${ride.endDate}"></p>
+<p>Price</p><p th:text="${ride.price}"></p>
+<p>Landing sites</p><p th:text="${ride.landingSides}"></p>
+<p>Driver phone number</p><p th:text="${ride.driverByDriverId.phoneNumber}"></p>
+<p>Vehicle type</p><p th:text="${ride.driverByDriverId.vehicle.type}"></p>
+<p>Vehicle model</p><p th:text="${ride.driverByDriverId.vehicle.model}"></p>
+<p>Vehicle number</p><p th:text="${ride.driverByDriverId.vehicle.number}"></p>
+<form th:action="@{/client/available-rides/{rideId}(rideId=${ride.id})}" method="post">
+  <p>Enter payment type : </p>
+  <input type="text" placeholder="CASH" id="payment_type" name="payment_type">
+  <button type="submit">Order!</button>
+</form>
+</body>
+</html>

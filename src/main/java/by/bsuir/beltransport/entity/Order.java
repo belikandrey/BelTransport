@@ -1,7 +1,12 @@
 package by.bsuir.beltransport.entity;
 
+import org.springframework.web.bind.annotation.GetMapping;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,6 +24,7 @@ public class Order {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -26,6 +32,7 @@ public class Order {
     public void setId(Integer id) {
         this.id = id;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -35,7 +42,7 @@ public class Order {
         return Objects.equals(id, order.id);
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="ride_id", referencedColumnName = "id", nullable = false)
     public Ride getRide() {
         return ride;
@@ -45,7 +52,7 @@ public class Order {
         this.ride = ride;
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "payment_id", referencedColumnName = "id", nullable = false)
     public Payment getPayment() {
         return payment;
