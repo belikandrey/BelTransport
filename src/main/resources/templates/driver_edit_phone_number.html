@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Edit phone : </h1>
+<br>
+<br>
+Current phone number : <p th:text="${session.driver.phoneNumber}"></p>
+
+<form action="#" th:action="@{/driver/edit-phone}" th:object="${driver}" method="post">
+
+  <label for="phoneNumber">Phone number(+375XXXXXXXXX)</label>
+  <input pattern="^\+375(17|29|33|44)[0-9]{3}[0-9]{2}[0-9]{2}$" type="text" th:field="*{phoneNumber}" id="phoneNumber" placeholder="Phone number">
+  <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
+
+  <button type="submit">Submit</button>
+</form>
+</body>
+</html>

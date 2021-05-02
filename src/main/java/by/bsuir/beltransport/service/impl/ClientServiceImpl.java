@@ -44,8 +44,8 @@ public class ClientServiceImpl implements ClientService {
 
   @Override
   public List<Ride> getAvailableRides() {
-    return rideRepository.findAllByStartDateAfterOrderByStartDate(
-        Timestamp.valueOf(LocalDateTime.now().minusMinutes(30)));
+    return rideRepository.findAllByStartDateAfterAndLandingSidesGreaterThanOrderByStartDate(
+        Timestamp.valueOf(LocalDateTime.now().minusMinutes(30)), 0);
   }
 
   @Override
@@ -75,17 +75,20 @@ public class ClientServiceImpl implements ClientService {
     Payment payment = new Payment();
     payment.setPrice(ride.get().getPrice());
     payment.setPaymentDate(Timestamp.valueOf(LocalDateTime.now()));
-    PaymentType paymentType;
-    if(payment_type.equalsIgnoreCase("cash")){
-      paymentType = PaymentType.CASH;
-    }else{
-      paymentType = PaymentType.BANK_CARD;
-    }
+    PaymentType paymentType = getPaymentType(payment_type);
     payment.setType(paymentType);
     order.setPayment(payment);
     orderRepository.save(order);
     final Ride ride1 = ride.get();
-    ride1.setLandingSides(ride1.getLandingSides()-1);
+    ride1.setLandingSides(ride1.getLandingSides() - 1);
     rideRepository.save(ride1);
+  }
+
+  private PaymentType getPaymentType(String paymentType) {
+    final String payment = paymentType.substring(13);
+    if (payment.equalsIgnoreCase("cash")) {
+      return PaymentType.CASH;
+    }
+    return PaymentType.BANK_CARD;
   }
 }

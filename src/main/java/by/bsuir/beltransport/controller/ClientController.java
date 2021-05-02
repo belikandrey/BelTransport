@@ -2,6 +2,8 @@ package by.bsuir.beltransport.controller;
 
 import by.bsuir.beltransport.entity.Client;
 import by.bsuir.beltransport.entity.Order;
+import by.bsuir.beltransport.entity.Payment;
+import by.bsuir.beltransport.entity.PaymentType;
 import by.bsuir.beltransport.entity.Ride;
 import by.bsuir.beltransport.entity.User;
 import by.bsuir.beltransport.exception.EntityNotFoundException;
@@ -59,7 +61,6 @@ public class ClientController {
   @PostMapping("/edit-phone")
   public String updatePhoneNumber(Client clientFromRequest, BindingResult bindingResult, HttpSession session){
     if (bindingResult.hasErrors()) {
-      bindingResult.getAllErrors().forEach(System.out::println);
       return "client_edit_phone_number";
     }
     Client client =(Client) session.getAttribute("client");

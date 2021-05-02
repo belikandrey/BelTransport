@@ -18,7 +18,7 @@
 <p>Vehicle number</p><p th:text="${ride.driverByDriverId.vehicle.number}"></p>
 <form th:action="@{/client/available-rides/{rideId}(rideId=${ride.id})}" method="post">
   <p>Enter payment type : </p>
-  <input type="text" placeholder="CASH" id="payment_type" name="payment_type">
+  <input type="text" placeholder="Payment type" id="payment_type" name="payment_type">
   <button type="submit">Order!</button>
 </form>
 </body>
