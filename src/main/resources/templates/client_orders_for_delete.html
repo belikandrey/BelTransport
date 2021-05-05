@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Delete</title>
+    </head>
+<body>
+<h1>Orders that you can cancel : </h1>
+<table>
+    <tr>
+        <th>Ride start location</th>
+        <th>Ride end location</th>
+        <th>Ride start date</th>
+        <th>Ride end date</th>
+        <th>Price</th>
+        <th>Driver phone number</th>
+        <th>Payment type</th>
+        <th>Action</th>
+    </tr>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.ride.startLocation}"></td>
+        <td th:text="${order.ride.endLocation}"></td>
+        <td th:text="${order.ride.startDate}"></td>
+        <td th:text="${order.ride.endDate}"></td>
+        <td th:text="${order.ride.price}"></td>
+        <td th:text="${order.ride.driverByDriverId.phoneNumber}"></td>
+        <td th:text="${order.payment.type}"></td>
+        <td>
+            <form action="/client/orders-delete" method="post">
+                <input type="hidden"  th:value="${order.id}" name="order_id">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

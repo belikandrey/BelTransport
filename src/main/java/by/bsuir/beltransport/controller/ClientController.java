@@ -7,6 +7,7 @@ import by.bsuir.beltransport.entity.PaymentType;
 import by.bsuir.beltransport.entity.Ride;
 import by.bsuir.beltransport.entity.User;
 import by.bsuir.beltransport.exception.EntityNotFoundException;
+import by.bsuir.beltransport.exception.ImpossibleToCancelOrderException;
 import by.bsuir.beltransport.exception.NotEnoughSitesException;
 import by.bsuir.beltransport.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/client")
@@ -87,7 +89,7 @@ public class ClientController {
   @PostMapping("/available-rides/{ride_id}")
   public String createOrder(@PathVariable Integer ride_id, @RequestBody MultiValueMap<String, String> params, HttpSession session){
     final String payment_type = params.getFirst("payment_type");
-    final Integer sites = Integer.valueOf(params.getFirst("sites"));
+    final Integer sites = Integer.valueOf(Objects.requireNonNull(params.getFirst("sites")));
     Client client = (Client) session.getAttribute("client");
     try {
       clientService.createOrder(ride_id, payment_type, sites, client);
@@ -96,4 +98,25 @@ public class ClientController {
     }
     return "redirect:/client/orders";
   }
+
+  @GetMapping("/orders-delete")
+  public String getOrdersForDelete(HttpSession session, Model model){
+    Client client = (Client) session.getAttribute("client");
+    List<Order> orders = clientService.getOrdersForDelete(client.getId());
+    model.addAttribute("orders", orders);
+    return "client_orders_for_delete";
+  }
+
+  @PostMapping("/orders-delete")
+  public String deleteOrder(@RequestBody MultiValueMap<String, String> params, HttpSession session){
+    Client client = (Client) session.getAttribute("client");
+    final Integer orderId = Integer.valueOf(Objects.requireNonNull(params.getFirst("order_id")));
+    try {
+      clientService.deleteOrder(client, orderId);
+    } catch (EntityNotFoundException e) {
+      e.printStackTrace();
+    }
+    return "client_orders";
+  }
+
 }

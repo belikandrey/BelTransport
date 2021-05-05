@@ -6,6 +6,7 @@ import by.bsuir.beltransport.entity.Payment;
 import by.bsuir.beltransport.entity.PaymentType;
 import by.bsuir.beltransport.entity.Ride;
 import by.bsuir.beltransport.exception.EntityNotFoundException;
+import by.bsuir.beltransport.exception.ImpossibleToCancelOrderException;
 import by.bsuir.beltransport.exception.NotEnoughSitesException;
 import by.bsuir.beltransport.persistance.ClientRepository;
 import by.bsuir.beltransport.persistance.OrderRepository;
@@ -18,6 +19,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -65,15 +67,16 @@ public class ClientServiceImpl implements ClientService {
 
   @Override
   public void createOrder(Integer ride_id, String payment_type, Integer sites, Client client)
-          throws EntityNotFoundException, NotEnoughSitesException {
+      throws EntityNotFoundException, NotEnoughSitesException {
     final Order order = new Order();
     final Optional<Ride> rideOptional = rideRepository.findById(ride_id);
     if (rideOptional.isEmpty()) {
       throw new EntityNotFoundException("Ride with id : " + ride_id + " not found");
     }
     final Ride ride = rideOptional.get();
-    if(ride.getLandingSides()<sites){
-      throw new NotEnoughSitesException("You ordered too many seats. Count of free sites : "+ride.getLandingSides()+". ");
+    if (ride.getLandingSides() < sites) {
+      throw new NotEnoughSitesException(
+          "You ordered too many seats. Count of free sites : " + ride.getLandingSides() + ". ");
     }
     order.setRide(ride);
     order.setClient(client);
@@ -90,10 +93,35 @@ public class ClientServiceImpl implements ClientService {
   }
 
   private PaymentType getPaymentType(String paymentType) {
-    final String payment = paymentType.substring(13);
-    if (payment.equalsIgnoreCase("cash")) {
+    if (paymentType.equalsIgnoreCase("cash")) {
       return PaymentType.CASH;
     }
     return PaymentType.BANK_CARD;
+  }
+
+  @Override
+  public void deleteOrder(Client client, Integer orderId)
+      throws EntityNotFoundException {
+    final Optional<Order> orderOptional = orderRepository.findById(orderId);
+    if (orderOptional.isEmpty()) {
+      throw new EntityNotFoundException("Order with id : " + orderId + " not found");
+    }
+    final Order order = orderOptional.get();
+    final Ride ride = order.getRide();
+    ride.setLandingSides(ride.getLandingSides() + order.getCountOfSeats());
+    rideRepository.save(ride);
+    orderRepository.delete(order);
+  }
+
+  @Override
+  public List<Order> getOrdersForDelete(Integer clientId) {
+    return getAllClientOrders(clientId).stream()
+        .filter(
+            (p) ->
+                p.getRide()
+                    .getStartDate()
+                    .toLocalDateTime()
+                    .isAfter(LocalDateTime.now().minusHours(1)))
+        .collect(Collectors.toList());
   }
 }
