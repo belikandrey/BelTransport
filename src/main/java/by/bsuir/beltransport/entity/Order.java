@@ -21,7 +21,7 @@ public class Order {
     private Client client;
     private Ride ride;
     private Payment payment;
-
+    private Integer countOfSeats;
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,6 +60,15 @@ public class Order {
 
     public void setPayment(Payment payment) {
         this.payment = payment;
+    }
+
+    @Column(name = "sites")
+    public Integer getCountOfSeats() {
+        return countOfSeats;
+    }
+
+    public void setCountOfSeats(Integer countOfSeats) {
+        this.countOfSeats = countOfSeats;
     }
 
     @Override

@@ -4,6 +4,7 @@ import by.bsuir.beltransport.entity.Client;
 import by.bsuir.beltransport.entity.Order;
 import by.bsuir.beltransport.entity.Ride;
 import by.bsuir.beltransport.exception.EntityNotFoundException;
+import by.bsuir.beltransport.exception.NotEnoughSitesException;
 
 import java.util.List;
 
@@ -17,5 +18,5 @@ public interface ClientService extends AbstractService{
 
     Ride getRideById(Integer rideId) throws EntityNotFoundException;
 
-    void createOrder(Integer ride_id, String payment_type, Client client) throws EntityNotFoundException;
+    void createOrder(Integer ride_id, String payment_type, Integer sites, Client client) throws EntityNotFoundException, NotEnoughSitesException;
 }

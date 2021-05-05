@@ -7,10 +7,12 @@ import by.bsuir.beltransport.entity.PaymentType;
 import by.bsuir.beltransport.entity.Ride;
 import by.bsuir.beltransport.entity.User;
 import by.bsuir.beltransport.exception.EntityNotFoundException;
+import by.bsuir.beltransport.exception.NotEnoughSitesException;
 import by.bsuir.beltransport.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -83,11 +85,13 @@ public class ClientController {
   }
 
   @PostMapping("/available-rides/{ride_id}")
-  public String createOrder(@PathVariable Integer ride_id, @RequestBody String payment_type, HttpSession session){
+  public String createOrder(@PathVariable Integer ride_id, @RequestBody MultiValueMap<String, String> params, HttpSession session){
+    final String payment_type = params.getFirst("payment_type");
+    final Integer sites = Integer.valueOf(params.getFirst("sites"));
     Client client = (Client) session.getAttribute("client");
     try {
-      clientService.createOrder(ride_id, payment_type, client);
-    } catch (EntityNotFoundException e) {
+      clientService.createOrder(ride_id, payment_type, sites, client);
+    } catch (EntityNotFoundException | NotEnoughSitesException e) {
       e.printStackTrace();
     }
     return "redirect:/client/orders";

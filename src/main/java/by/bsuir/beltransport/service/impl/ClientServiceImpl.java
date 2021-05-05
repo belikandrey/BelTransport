@@ -6,6 +6,7 @@ import by.bsuir.beltransport.entity.Payment;
 import by.bsuir.beltransport.entity.PaymentType;
 import by.bsuir.beltransport.entity.Ride;
 import by.bsuir.beltransport.exception.EntityNotFoundException;
+import by.bsuir.beltransport.exception.NotEnoughSitesException;
 import by.bsuir.beltransport.persistance.ClientRepository;
 import by.bsuir.beltransport.persistance.OrderRepository;
 import by.bsuir.beltransport.persistance.RideRepository;
@@ -63,25 +64,29 @@ public class ClientServiceImpl implements ClientService {
   }
 
   @Override
-  public void createOrder(Integer ride_id, String payment_type, Client client)
-      throws EntityNotFoundException {
+  public void createOrder(Integer ride_id, String payment_type, Integer sites, Client client)
+          throws EntityNotFoundException, NotEnoughSitesException {
     final Order order = new Order();
-    final Optional<Ride> ride = rideRepository.findById(ride_id);
-    if (ride.isEmpty()) {
-      throw new EntityNotFoundException("ride with id : " + ride_id + " not found");
+    final Optional<Ride> rideOptional = rideRepository.findById(ride_id);
+    if (rideOptional.isEmpty()) {
+      throw new EntityNotFoundException("Ride with id : " + ride_id + " not found");
     }
-    order.setRide(ride.get());
+    final Ride ride = rideOptional.get();
+    if(ride.getLandingSides()<sites){
+      throw new NotEnoughSitesException("You ordered too many seats. Count of free sites : "+ride.getLandingSides()+". ");
+    }
+    order.setRide(ride);
     order.setClient(client);
     Payment payment = new Payment();
-    payment.setPrice(ride.get().getPrice());
+    payment.setPrice(ride.getPrice());
     payment.setPaymentDate(Timestamp.valueOf(LocalDateTime.now()));
     PaymentType paymentType = getPaymentType(payment_type);
     payment.setType(paymentType);
+    order.setCountOfSeats(sites);
     order.setPayment(payment);
     orderRepository.save(order);
-    final Ride ride1 = ride.get();
-    ride1.setLandingSides(ride1.getLandingSides() - 1);
-    rideRepository.save(ride1);
+    ride.setLandingSides(ride.getLandingSides() - sites);
+    rideRepository.save(ride);
   }
 
   private PaymentType getPaymentType(String paymentType) {
