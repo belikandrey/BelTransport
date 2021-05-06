@@ -89,6 +89,7 @@ public class ClientServiceImpl implements ClientService {
     order.setCountOfSeats(sites);
     order.setPayment(payment);
     order.setResult(OrderResult.UNDEFINED);
+    order.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
     orderRepository.save(order);
     ride.setLandingSides(ride.getLandingSides() - sites);
     rideRepository.save(ride);

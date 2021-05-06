@@ -5,6 +5,7 @@ import by.bsuir.beltransport.entity.Driver;
 import by.bsuir.beltransport.entity.OrderResult;
 import by.bsuir.beltransport.entity.Ride;
 import by.bsuir.beltransport.entity.Status;
+import by.bsuir.beltransport.entity.User;
 import by.bsuir.beltransport.exception.EntityNotFoundException;
 import by.bsuir.beltransport.service.AdminService;
 import by.bsuir.beltransport.service.ClientService;
@@ -103,6 +104,20 @@ public class AdminController {
       e.printStackTrace();
     }
     return "redirect:/admin/edit-drivers";
+  }
+
+  @GetMapping("/create-admin")
+  public String toCreateAdmin(User user){
+    return "admin_create_admin";
+  }
+
+  @PostMapping("/create-admin")
+  public String createAdmin(@Valid User user, BindingResult result){
+    if(result.hasErrors()){
+      return "admin_create_admin";
+    }
+    adminService.createAdmin(user);
+    return "redirect:/admin/";
   }
 
   @GetMapping("/edit-clients/{id}")

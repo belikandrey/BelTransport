@@ -1,6 +1,7 @@
 package by.bsuir.beltransport.filter;
 
 import by.bsuir.beltransport.entity.Driver;
+import by.bsuir.beltransport.entity.Status;
 
 import javax.servlet.FilterChain;
 import javax.servlet.RequestDispatcher;
@@ -20,9 +21,10 @@ public class DriverAuthFilter extends HttpFilter {
       throws IOException, ServletException {
     final HttpSession session = request.getSession();
     final Driver driver = (Driver) session.getAttribute("driver");
-    if (driver == null) {
+    if (driver == null || driver.getStatus().equals(Status.BANNED)) {
+      String message = driver == null ? "You must log in before start" : "You are banned";
       final RequestDispatcher requestDispatcher = request.getRequestDispatcher("/");
-      request.setAttribute("message", "You must log in before start");
+      request.setAttribute("message", message);
       requestDispatcher.forward(request, response);
     }
     chain.doFilter(request, response);

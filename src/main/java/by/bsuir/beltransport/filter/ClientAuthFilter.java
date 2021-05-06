@@ -1,6 +1,7 @@
 package by.bsuir.beltransport.filter;
 
 import by.bsuir.beltransport.entity.Client;
+import by.bsuir.beltransport.entity.Status;
 
 import javax.servlet.FilterChain;
 import javax.servlet.RequestDispatcher;
@@ -20,9 +21,10 @@ public class ClientAuthFilter extends HttpFilter {
       throws IOException, ServletException {
     final HttpSession session = request.getSession();
     final Client client = (Client) session.getAttribute("client");
-    if (client == null) {
+    if (client == null || client.getStatus().equals(Status.BANNED)) {
+      String message = client == null ? "You must log in before start" : "You are banned";
       final RequestDispatcher requestDispatcher = request.getRequestDispatcher("/");
-      request.setAttribute("message", "You must log in before start");
+      request.setAttribute("message", message);
       requestDispatcher.forward(request, response);
     }
     chain.doFilter(request, response);
