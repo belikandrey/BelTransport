@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Driver info : </h1>
+
+<p>Driver login :
+<p th:text="${driver.login}"></p></p>
+<p>Driver phone number :
+<p th:text="${driver.phoneNumber}"></p></p>
+<p>Vehicle number :
+<p th:text="${driver.vehicle.number}"></p></p>
+<p>Sum of revenue :
+<p th:text="${revenue}"></p></p>
+<form th:action="@{/admin/edit-drivers/{driver_id}(driver_id=${driver.id})}" method="post">
+    <p>Set status</p>
+    <select name="status" id="status">
+        <option value="ACTIVE" selected>Active</option>
+        <option value="BANNED">Banned</option>
+    </select>
+    <button type="submit">Add bonus</button>
+</form>
+
+
+</body>
+</html>

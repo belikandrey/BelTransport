@@ -2,7 +2,9 @@ package by.bsuir.beltransport.service;
 
 import by.bsuir.beltransport.entity.Client;
 import by.bsuir.beltransport.entity.Order;
+import by.bsuir.beltransport.entity.OrderResult;
 import by.bsuir.beltransport.entity.Ride;
+import by.bsuir.beltransport.entity.Status;
 import by.bsuir.beltransport.exception.EntityNotFoundException;
 import by.bsuir.beltransport.exception.ImpossibleToCancelOrderException;
 import by.bsuir.beltransport.exception.NotEnoughSitesException;
@@ -24,4 +26,12 @@ public interface ClientService extends AbstractService{
     void deleteOrder(Client client, Integer orderId) throws EntityNotFoundException;
 
     List<Order> getOrdersForDelete(Integer clientId);
+
+    List<Client> findAll();
+
+    Client findById(Integer id) throws EntityNotFoundException;
+
+    Integer findCountByOrderResults(Client client, OrderResult came);
+
+    void update(Integer id, Integer bonus, Status status) throws EntityNotFoundException;
 }

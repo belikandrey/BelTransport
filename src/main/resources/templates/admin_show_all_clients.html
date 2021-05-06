@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"><head>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>You can show any client!</h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Email</th>
+        <th>Phone number</th>
+        <th>Status</th>
+        <th>Bonus</th>
+        <th>Action</th>
+    </tr>
+    <tr th:each="client : ${clients}">
+        <td th:text="${client.name}"></td>
+        <td th:text="${client.surname}"></td>
+        <td th:text="${client.email}"></td>
+        <td th:text="${client.phoneNumber}"></td>
+        <td th:text="${client.status}"></td>
+        <td th:text="${client.bonus}"></td>
+        <td><a th:href="@{/admin/edit-clients/{client_id}(client_id=${client.id})}"><button>Show</button></a></td>
+    </tr>
+</table>
+</body>
+</html>

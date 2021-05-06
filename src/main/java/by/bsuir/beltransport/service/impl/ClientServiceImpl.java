@@ -6,8 +6,8 @@ import by.bsuir.beltransport.entity.OrderResult;
 import by.bsuir.beltransport.entity.Payment;
 import by.bsuir.beltransport.entity.PaymentType;
 import by.bsuir.beltransport.entity.Ride;
+import by.bsuir.beltransport.entity.Status;
 import by.bsuir.beltransport.exception.EntityNotFoundException;
-import by.bsuir.beltransport.exception.ImpossibleToCancelOrderException;
 import by.bsuir.beltransport.exception.NotEnoughSitesException;
 import by.bsuir.beltransport.persistance.ClientRepository;
 import by.bsuir.beltransport.persistance.OrderRepository;
@@ -102,8 +102,19 @@ public class ClientServiceImpl implements ClientService {
   }
 
   @Override
-  public void deleteOrder(Client client, Integer orderId)
-      throws EntityNotFoundException {
+  public Client findById(Integer id) throws EntityNotFoundException {
+    return clientRepository
+        .findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Client with id : " + id + " not found"));
+  }
+
+  @Override
+  public List<Client> findAll() {
+    return clientRepository.findAll();
+  }
+
+  @Override
+  public void deleteOrder(Client client, Integer orderId) throws EntityNotFoundException {
     final Optional<Order> orderOptional = orderRepository.findById(orderId);
     if (orderOptional.isEmpty()) {
       throw new EntityNotFoundException("Order with id : " + orderId + " not found");
@@ -113,6 +124,23 @@ public class ClientServiceImpl implements ClientService {
     ride.setLandingSides(ride.getLandingSides() + order.getCountOfSeats());
     rideRepository.save(ride);
     orderRepository.delete(order);
+  }
+
+  @Override
+  public Integer findCountByOrderResults(Client client, OrderResult result) {
+    return orderRepository.countAllByClientAndResult(client, result);
+  }
+
+  @Override
+  public void update(Integer id, Integer bonus, Status status) throws EntityNotFoundException {
+    final Optional<Client> clientOptional = clientRepository.findById(id);
+    if (clientOptional.isEmpty()) {
+      throw new EntityNotFoundException("Client with id " + id + " not found");
+    }
+    final Client client = clientOptional.get();
+    client.setBonus(bonus);
+    client.setStatus(status);
+    clientRepository.save(client);
   }
 
   @Override

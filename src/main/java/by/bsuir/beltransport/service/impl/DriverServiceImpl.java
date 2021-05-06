@@ -4,6 +4,7 @@ import by.bsuir.beltransport.entity.Driver;
 import by.bsuir.beltransport.entity.Order;
 import by.bsuir.beltransport.entity.OrderResult;
 import by.bsuir.beltransport.entity.Ride;
+import by.bsuir.beltransport.entity.Status;
 import by.bsuir.beltransport.exception.EntityNotFoundException;
 import by.bsuir.beltransport.persistance.DriverRepository;
 import by.bsuir.beltransport.persistance.OrderRepository;
@@ -60,6 +61,19 @@ public class DriverServiceImpl implements DriverService {
   }
 
   @Override
+  public Double findSummaryRevenue(Integer driverId) {
+    final Double sumOfRevenue = driverRepository.findSumOfRevenue(driverId);
+    return sumOfRevenue == null ? 0 : sumOfRevenue;
+  }
+
+  @Override
+  public void update(Integer driverId, Status status) throws EntityNotFoundException {
+    final Driver driver = findById(driverId);
+    driver.setStatus(status);
+    save(driver);
+  }
+
+  @Override
   public Ride getRideById(Integer rideId) throws EntityNotFoundException {
     final Optional<Ride> rideOptional = rideRepository.findById(rideId);
     if (rideOptional.isEmpty()) {
@@ -82,5 +96,17 @@ public class DriverServiceImpl implements DriverService {
     final Order order = orderOptional.get();
     order.setResult(result);
     orderRepository.save(order);
+  }
+
+  @Override
+  public List<Driver> findAll() {
+    return driverRepository.findAll();
+  }
+
+  @Override
+  public Driver findById(Integer id) throws EntityNotFoundException {
+    return driverRepository
+        .findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Driver with id : " + id + " not found"));
   }
 }

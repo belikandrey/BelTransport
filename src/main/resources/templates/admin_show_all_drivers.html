@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"><head>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>You can show any driver!</h1>
+<table>
+    <tr>
+        <th>Login</th>
+        <th>Phone number</th>
+        <th>Vehicle number</th>
+        <th>Vehicle model</th>
+        <th>Vehicle type</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+    <tr th:each="driver : ${drivers}">
+        <td th:text="${driver.login}"></td>
+        <td th:text="${driver.phoneNumber}"></td>
+        <td th:text="${driver.vehicle.number}"></td>
+        <td th:text="${driver.vehicle.model}"></td>
+        <td th:text="${driver.vehicle.type}"></td>
+        <td th:text="${driver.status}"></td>
+        <td><a th:href="@{/admin/edit-drivers/{driver_id}(driver_id=${driver.id})}"><button>Show</button></a></td>
+    </tr>
+</table>
+</body>
+</html>

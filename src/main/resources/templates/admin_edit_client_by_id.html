@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+<body>
+<h2>Info about client : </h2>
+
+<p>Client name :
+<p th:text="${client.name}"></p></p>
+<p>Client status :
+<p th:text="${client.status}"></p></p>
+<p>Client bonus :
+<p th:text="${client.bonus}"></p></p>
+<p>Count of rides he came :
+<p th:text="${countCame}"></p></p>
+<p>Count of rides he did not come :
+<p th:text="${countDidNotCome}"></p></p>
+<form th:action="@{/admin/edit-clients/{client_id}(client_id=${client.id})}" method="post">
+    <p>Add bonus : </p>
+    <select name="bonus" id="bonus">
+        <option value="0" selected>0%</option>
+        <option value="3">3%</option>
+        <option value="5">5%</option>
+        <option value="7">7%</option>
+        <option value="10">10%</option>
+    </select>
+    <br>
+    <p>Set status</p>
+    <select name="status" id="status">
+        <option value="ACTIVE" selected>Active</option>
+        <option value="BANNED">Banned</option>
+    </select>
+    <button type="submit">Add bonus</button>
+</form>
+
+
+
+</body>
+</html>
