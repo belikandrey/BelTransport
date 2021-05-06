@@ -2,9 +2,12 @@ package by.bsuir.beltransport.entity;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -21,7 +25,9 @@ public class Order {
     private Client client;
     private Ride ride;
     private Payment payment;
+    private Timestamp createDate;
     private Integer countOfSeats;
+    private OrderResult result;
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,6 +56,26 @@ public class Order {
 
     public void setRide(Ride ride) {
         this.ride = ride;
+    }
+
+    @Basic
+    @Column(name = "create_date")
+    public Timestamp getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Timestamp createDate) {
+        this.createDate = createDate;
+    }
+
+    @Column(name = "result")
+    @Enumerated(EnumType.STRING)
+    public OrderResult getResult() {
+        return result;
+    }
+
+    public void setResult(OrderResult result) {
+        this.result = result;
     }
 
     @ManyToOne(cascade = CascadeType.PERSIST)

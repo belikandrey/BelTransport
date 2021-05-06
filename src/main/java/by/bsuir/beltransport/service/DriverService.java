@@ -3,6 +3,7 @@ package by.bsuir.beltransport.service;
 import by.bsuir.beltransport.entity.Client;
 import by.bsuir.beltransport.entity.Driver;
 import by.bsuir.beltransport.entity.Order;
+import by.bsuir.beltransport.entity.OrderResult;
 import by.bsuir.beltransport.entity.Ride;
 import by.bsuir.beltransport.exception.EntityNotFoundException;
 
@@ -20,4 +21,6 @@ public interface DriverService {
     Ride getRideById(Integer rideId) throws EntityNotFoundException;
 
     List<Order> getOrdersForRide(Integer ride_id);
+
+    void editStatus(OrderResult result, Integer order_id) throws EntityNotFoundException;
 }

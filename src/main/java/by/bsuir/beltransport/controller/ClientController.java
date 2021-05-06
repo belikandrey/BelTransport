@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 
@@ -116,7 +115,6 @@ public class ClientController {
     } catch (EntityNotFoundException e) {
       e.printStackTrace();
     }
-    return "client_orders";
+    return "redirect:/client/orders-delete";
   }
-
 }

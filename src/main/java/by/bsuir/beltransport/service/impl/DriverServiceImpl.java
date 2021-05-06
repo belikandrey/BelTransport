@@ -1,8 +1,8 @@
 package by.bsuir.beltransport.service.impl;
 
-import by.bsuir.beltransport.entity.Client;
 import by.bsuir.beltransport.entity.Driver;
 import by.bsuir.beltransport.entity.Order;
+import by.bsuir.beltransport.entity.OrderResult;
 import by.bsuir.beltransport.entity.Ride;
 import by.bsuir.beltransport.exception.EntityNotFoundException;
 import by.bsuir.beltransport.persistance.DriverRepository;
@@ -25,6 +25,7 @@ public class DriverServiceImpl implements DriverService {
   private VehicleRepository vehicleRepository;
   private RideRepository rideRepository;
   private OrderRepository orderRepository;
+
   @Autowired
   public DriverServiceImpl(
       DriverRepository driverRepository,
@@ -61,8 +62,8 @@ public class DriverServiceImpl implements DriverService {
   @Override
   public Ride getRideById(Integer rideId) throws EntityNotFoundException {
     final Optional<Ride> rideOptional = rideRepository.findById(rideId);
-    if(rideOptional.isEmpty()){
-      throw new EntityNotFoundException("Ride with id : "+rideId+" not found");
+    if (rideOptional.isEmpty()) {
+      throw new EntityNotFoundException("Ride with id : " + rideId + " not found");
     }
     return rideOptional.get();
   }
@@ -70,5 +71,16 @@ public class DriverServiceImpl implements DriverService {
   @Override
   public List<Order> getOrdersForRide(Integer ride_id) {
     return orderRepository.findAllByRide_Id(ride_id);
+  }
+
+  @Override
+  public void editStatus(OrderResult result, Integer order_id) throws EntityNotFoundException {
+    final Optional<Order> orderOptional = orderRepository.findById(order_id);
+    if (orderOptional.isEmpty()) {
+      throw new EntityNotFoundException("Order with id : " + order_id + " not found");
+    }
+    final Order order = orderOptional.get();
+    order.setResult(result);
+    orderRepository.save(order);
   }
 }

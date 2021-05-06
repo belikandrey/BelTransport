@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit vehicle</title>
+</head>
+<body>
+
+<h1>Edit vehicle info!</h1>
+
+<form action="#" th:action="@{/driver/edit-vehicle}" th:object="${vehicle}" method="post">
+  <label for="number">Number</label>
+  <input type="text" th:field="*{number}" id="number" placeholder="Number">
+  <span th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></span>
+
+  <br>
+  <label for="model">Model</label>
+  <input type="text" th:field="*{model}" id="model" placeholder="Model">
+  <span th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></span>
+
+  <br>
+
+  <label for="type">Type</label>
+    <select name="type" th:field="*{type}" id="type">
+      <option value="MINIBUS" selected>Minibus</option>
+      <option value="BUS">Bus</option>
+    </select>
+
+  <input type="submit" value="Edit!">
+</form>
+
+
+</body>
+</html>

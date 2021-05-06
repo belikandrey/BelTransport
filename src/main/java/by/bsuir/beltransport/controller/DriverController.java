@@ -2,16 +2,20 @@ package by.bsuir.beltransport.controller;
 
 import by.bsuir.beltransport.entity.Driver;
 import by.bsuir.beltransport.entity.Order;
+import by.bsuir.beltransport.entity.OrderResult;
 import by.bsuir.beltransport.entity.Ride;
+import by.bsuir.beltransport.entity.Vehicle;
 import by.bsuir.beltransport.exception.EntityNotFoundException;
 import by.bsuir.beltransport.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
@@ -79,11 +83,34 @@ public class DriverController {
     }
     return "driver_ride_by_id";
   }
-  //
-  //  public String getRide(){
-  //
-  //  }
-  //
-  //
 
+  @GetMapping("/edit-vehicle")
+  public String toEditVehicle(Vehicle vehicle) {
+    return "driver_edit_vehicle";
+  }
+
+  @PostMapping("/edit-vehicle")
+  public String editVehicle(Vehicle vehicle, HttpSession session, BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      return "driver_edit_vehicle";
+    }
+    Driver driver = (Driver) session.getAttribute("driver");
+    vehicle.setId(driver.getVehicle().getId());
+    driver.setVehicle(vehicle);
+    final Driver updated = driverService.update(driver);
+    session.setAttribute("driver", updated);
+    return "driver_home";
+  }
+
+  @PostMapping("/rides/order-status")
+  public String editStatus(@RequestBody MultiValueMap<String, String> params){
+    final OrderResult result = OrderResult.valueOf(params.getFirst("result"));
+    final Integer order_id = Integer.valueOf(params.getFirst("order_id"));
+    try {
+      driverService.editStatus(result, order_id);
+    } catch (EntityNotFoundException e) {
+      e.printStackTrace();
+    }
+    return "driver_home";
+  }
 }

@@ -45,8 +45,10 @@
     <br>
 
     <label for="vehicleType">Vehicle type</label>
-    <input type="text" th:field="*{vehicle.type}" id="vehicleType" placeholder="Vehicle type">
-    <span th:if="${#fields.hasErrors('vehicle.type')}" th:errors="*{vehicle.type}"></span>
+    <select name="type" id="vehicleType" th:field="*{vehicle.type}" >
+        <option value="MINIBUS">Minibus</option>
+        <option value="BUS">Bus</option>
+    </select>
 
     <input type="submit" value="Sign in!">
 </form>

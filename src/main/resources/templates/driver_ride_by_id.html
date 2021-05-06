@@ -21,6 +21,7 @@
         <th>Phone number</th>
         <th>Bonus</th>
         <th>Payment type</th>
+        <th>Result of order</th>
     </tr>
     <tr th:each="order : ${orders}">
         <td th:text="${order.client.name}"></td>
@@ -28,6 +29,17 @@
         <td th:text="${order.client.phoneNumber}"></td>
         <td th:text="${order.client.bonus}"></td>
         <td th:text="${order.payment.type}"></td>
+        <td>
+            <form th:action="@{/driver/rides/order-status}" method="post">
+                <select name="result" id="result">
+                    <option value="CAME" selected>Came</option>
+                    <option value="DID_NOT_COME">Did not came</option>
+                    <option value="UNDEFINED">Undefined</option>
+                </select>
+                <input hidden th:name="order_id" th:value="${order.id}">
+                <button type="submit">Submit</button>
+            </form>
+        </td>
     </tr>
 </table>
 </body>

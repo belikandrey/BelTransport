@@ -109,4 +109,10 @@ public class HomeController {
     session.setAttribute("user", saved);
     return "redirect:/driver";
   }
+
+  @GetMapping("/logout")
+  public String logout(HttpSession session){
+    session.invalidate();
+    return "hello";
+  }
 }

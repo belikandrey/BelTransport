@@ -16,6 +16,7 @@
         <th>Price</th>
         <th>Driver phone number</th>
         <th>Payment type</th>
+        <th>Create date</th>
         <th>Action</th>
     </tr>
     <tr th:each="order : ${orders}">
@@ -26,6 +27,7 @@
         <td th:text="${order.ride.price}"></td>
         <td th:text="${order.ride.driverByDriverId.phoneNumber}"></td>
         <td th:text="${order.payment.type}"></td>
+        <td th:text="${order.createDate}"></td>
         <td>
             <form action="/client/orders-delete" method="post">
                 <input type="hidden"  th:value="${order.id}" name="order_id">

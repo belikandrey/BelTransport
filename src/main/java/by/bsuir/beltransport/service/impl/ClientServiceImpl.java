@@ -2,6 +2,7 @@ package by.bsuir.beltransport.service.impl;
 
 import by.bsuir.beltransport.entity.Client;
 import by.bsuir.beltransport.entity.Order;
+import by.bsuir.beltransport.entity.OrderResult;
 import by.bsuir.beltransport.entity.Payment;
 import by.bsuir.beltransport.entity.PaymentType;
 import by.bsuir.beltransport.entity.Ride;
@@ -42,7 +43,7 @@ public class ClientServiceImpl implements ClientService {
 
   @Override
   public List<Order> getAllClientOrders(Integer id) {
-    return orderRepository.findAllByClient_Id(id);
+    return orderRepository.findAllByClient_IdOrderByCreateDateDesc(id);
   }
 
   @Override
@@ -87,6 +88,7 @@ public class ClientServiceImpl implements ClientService {
     payment.setType(paymentType);
     order.setCountOfSeats(sites);
     order.setPayment(payment);
+    order.setResult(OrderResult.UNDEFINED);
     orderRepository.save(order);
     ride.setLandingSides(ride.getLandingSides() - sites);
     rideRepository.save(ride);
