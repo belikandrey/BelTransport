@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<body>
+<div th:fragment="foot">
+
+    <footer id="foot" class="section footer-classic context-dark bg-image" style="background: #2d3246;">
+        <div class="container">
+            <div class="row row-30">
+                <div class="col-md-4 col-xl-7">
+                    <div class="pr-xl-4"><a class="brand" href="#">
+                        <img class="brand-logo-light"
+                             th:src="@{/img/footer_img.jpg}" alt="Image"
+                             width="125" height="75"/></a>
+                        <p>Мы - отмеченное наградами креативное бус-такси-агентство, стремящееся к лучшему результату в
+                            индустрии бус-такси.</p>
+                        <!-- Rights-->
+                        <p class="rights"><span>@ </span><span class="copyright-year">2021</span><span> </span><span>Buber</span><span>. </span><span>Все права защищены. </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h5>Контакты </h5>
+                    <dl class="contact-list">
+                        <dt>Адрес :</dt>
+                        <dd>Република Беларусь, Минск, Карла Маркса,25</dd>
+                    </dl>
+                    <dl class="contact-list">
+                        <dt>Email:</dt>
+                        <dd><a href="mailto:#">BuberOrg@gmail.com</a></dd>
+                    </dl>
+                    <dl class="contact-list">
+                        <dt>Телефоны :</dt>
+                        <dd><a href="tel:#">+375296666666</a> <span> </span> <a href="tel:#">+375256666666</a>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+</html>
