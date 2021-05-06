@@ -19,7 +19,12 @@
     <div th:if="${#fields.hasErrors('global')}">
         <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error"></p>
     </div>
+    <br>
     <input type="submit" value="Join!">
 </form>
+
+<br>
+<p><a href="/"><button>Back</button></a></p>
+
 </body>
 </html>

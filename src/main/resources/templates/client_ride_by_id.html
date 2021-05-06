@@ -7,40 +7,56 @@
     </head>
 <body>
 <h1>Ride : </h1>
-<p>Start location </p>
-<p th:text="${ride.startLocation}"></p>
-<p>End location</p>
-<p th:text="${ride.endLocation}"></p>
-<p>Start date</p>
+<p>Start location
+<p th:text="${ride.startLocation}"></p></p>
+<p>End location
+<p th:text="${ride.endLocation}"></p></p>
+<p>Start date
 <p th:text="${ride.startDate}"></p>
-<p>End date</p>
+</p>
+<p>End date
 <p th:text="${ride.endDate}"></p>
-<p>Price</p>
+</p>
+<p>Price
 <p th:text="${ride.price}"></p>
-<p>Landing sites</p>
+</p>
+<p>Landing sites
 <p th:text="${ride.landingSides}"></p>
-<p>Driver phone number</p>
+</p>
+<p>Driver phone number
 <p th:text="${ride.driverByDriverId.phoneNumber}"></p>
-<p>Vehicle type</p>
+</p>
+<p>Vehicle type
 <p th:text="${ride.driverByDriverId.vehicle.type}"></p>
-<p>Vehicle model</p>
+</p>
+<p>Vehicle model
 <p th:text="${ride.driverByDriverId.vehicle.model}"></p>
-<p>Vehicle number</p>
+</p>
+<p>Vehicle number
 <p th:text="${ride.driverByDriverId.vehicle.number}"></p>
+</p>
 <form th:action="@{/client/available-rides/{rideId}(rideId=${ride.id})}" method="post">
-    <p>Enter count of sites</p>
+    <p>Enter count of sites
     <select name="sites" id="sites">
         <option value="1" selected>1</option>
         <option value="2">2</option>
         <option value="3">3</option>
     </select>
-
-    <p>Enter payment type : </p>
+    </p>
+    <br>
+    <p>Enter payment type :
     <select name="payment_type" id="payment_type">
         <option value="CASH" selected>Cash</option>
         <option value="BANK_CARD">Bank card</option>
     </select>
+    </p>
+    <br>
     <button type="submit">Order!</button>
 </form>
+
+<p><a href="/client/available-rides">
+    <button>Back</button>
+</a></p>
+
 </body>
 </html>
