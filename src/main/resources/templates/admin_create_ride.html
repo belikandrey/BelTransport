@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Create ride : </h1>
+
+<form action="#" th:action="@{/admin/ride}" th:object="${ride}" method="post">
+  <label for="startLocation">Start location</label>
+  <input type="text" th:field="*{startLocation}" id="startLocation" placeholder="Start location">
+  <span th:if="${#fields.hasErrors('startLocation')}" th:errors="*{startLocation}"></span>
+
+  <br>
+  <label for="endLocation">End location</label>
+  <input type="text" th:field="*{endLocation}" id="endLocation" placeholder="End location">
+  <span th:if="${#fields.hasErrors('endLocation')}" th:errors="*{endLocation}"></span>
+
+  <br>
+
+  <label for="startDate">Start date</label>
+  <input type="datetime-local" name="start_date" id="startDate" placeholder="Start date">
+  <br>
+
+  <label for="endDate">End date</label>
+  <input type="datetime-local" name="end_date" id="endDate" placeholder="End date">
+
+  <br>
+
+  <label for="price">Price</label>
+  <input type="text" th:field="*{price}" id="price" placeholder="Price">
+  <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+  <br>
+
+  <label for="landingSides">Landing sides</label>
+  <input type="number" th:field="*{landingSides}" id="landingSides" placeholder="Landing sides">
+  <span th:if="${#fields.hasErrors('landingSides')}" th:errors="*{landingSides}"></span>
+
+  <br>
+
+  <label for="driver_id">Driver id</label>
+  <input type="text" name="driver_id" id="driver_id" placeholder="Driver id">
+
+  <div th:if="${#fields.hasErrors('global')}">
+    <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error"></p>
+  </div>
+
+
+  <input type="submit" value="Sign in!">
+</form>
+</body>
+</html>

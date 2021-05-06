@@ -70,7 +70,7 @@ public class DriverServiceImpl implements DriverService {
 
   @Override
   public List<Order> getOrdersForRide(Integer ride_id) {
-    return orderRepository.findAllByRide_Id(ride_id);
+    return orderRepository.findAllByRide_IdAndResult(ride_id, OrderResult.UNDEFINED);
   }
 
   @Override
