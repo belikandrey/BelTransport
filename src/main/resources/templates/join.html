@@ -11,23 +11,6 @@
 <body>
 <div th:insert="~{header :: head}"></div>
 
-<h1>Join us!</h1>
-<!--
-<form action="#" th:action="@{/join}" th:object="${user}" method="post">
-    <label for="login">Login</label>
-    <input type="text" th:field="*{login}" id="login" placeholder="Login">
-    <span th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></span>
-    <br>
-    <label for="password">Password</label>
-    <input type="password" th:field="*{password}" id="password" placeholder="Password">
-    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-    <div th:if="${#fields.hasErrors('global')}">
-        <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error"></p>
-    </div>
-    <br>
-    <input type="submit" value="Join!">
-</form>
--->
 
 <section class="taxi-background">
     <div class="container">
@@ -37,7 +20,7 @@
                 <div class="mb-3">
                     <label for="login" class="form-label">Логин</label>
                     <input type="text" th:field="*{login}" class="form-control login" id="login"
-                           pattern="^[(\w)-]{5,20}" required="" name="login" aria-describedby="loginHelp">
+                           pattern="^[а-яА-ЯёЁ0-9a-zA-Z]{3,35}$" required="" name="login" aria-describedby="loginHelp">
                     <div style="color: red; font-weight: 500;" id="loginHelp" class="form-text">Мы никогда никому не
                         передадим ваш логин.
                     </div>
@@ -45,7 +28,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Пароль</label>
-                    <input type="password" th:field="*{password}" pattern="^[A-Za-z]\w{4,29}$" required=""
+                    <input type="password" th:field="*{password}" pattern="^[а-яА-ЯёЁ0-9a-zA-Z]{3,35}$" required=""
                            class="form-control" name="password" id="password">
                     <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
                 </div>

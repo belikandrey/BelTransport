@@ -2,61 +2,104 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Sign</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/home.css}"/>
+    <link rel="shortcut icon" th:href="@{/img/Buber_ico.ico}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 </head>
 <body>
 
-<h1>Sign in as driver!</h1>
+<div th:insert="~{header :: head}"></div>
 
-<form action="#" th:action="@{/sign-in-driver}" th:object="${driver}" method="post">
-    <label for="phoneNumber">Phone number</label>
-    <input type="text" th:field="*{phoneNumber}" id="phoneNumber" placeholder="phoneNumber">
-    <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
+<section class="taxi-background">
+    <div class="container">
+        <div class="row inpForm">
+            <h2 class="big-font">Добро пожаловать в Buber !</h2>
+            <div class="big-font">Создайте аккаунт!</div>
+            <form th:action="@{/sign-in-driver}" th:object="${driver}" method="post">
+                <div class="row">
+
+                    <div class="col col-lg-5">
+                        <h2 style="padding-left: 20%;">Персональная информация</h2>
+                        <div class="mb-3">
+                            <label for="phoneNumber" class="form-label">Номер телефона</label>
+                            <input type="text" th:field="*{phoneNumber}" class="form-control phoneNumber"
+                                   id="phoneNumber"
+                                   pattern="^\+375(17|29|33|44)[0-9]{3}[0-9]{2}[0-9]{2}$" required="" name="phoneNumber"
+                                   aria-describedby="loginHelp">
+                            <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="login" class="form-label">Логин</label>
+                            <input type="text" th:field="*{login}" class="form-control login" id="login"
+                                   pattern="^[а-яА-ЯёЁ0-9a-zA-Z]{3,35}$" required="" name="login"
+                                   aria-describedby="loginHelp">
+                            <div style="color: red; font-weight: 500;" id="loginHelp" class="form-text">Мы никогда
+                                никому не
+                                передадим ваш логин.
+                            </div>
+                            <span th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Пароль</label>
+                            <input type="password" th:field="*{password}" pattern="^[а-яА-ЯёЁ0-9a-zA-Z]{3,35}$"
+                                   required=""
+                                   class="form-control" name="password" id="password">
+                            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                        </div>
+                    </div>
+                    <div class="col col-lg-5">
+                        <h2 style="padding-left: 20%;">Информация об авто</h2>
+
+                        <div class="mb-3">
+                            <label for="vehicleModel" class="form-label">Модель автомобиля</label>
+                            <input type="text" th:field="*{vehicle.model}" class="form-control vehicleModel"
+                                   id="vehicleModel"
+                                   pattern="^[а-яА-ЯёЁ0-9a-zA-Z]{3,35}$" required="" name="vehicleModel"
+                                   aria-describedby="vehicle.model">
+                            <span th:if="${#fields.hasErrors('vehicle.model')}" th:errors="*{vehicle.model}"></span>
+                        </div>
 
 
-    <br>
+                        <div class="mb-3">
+                            <label for="vehicleNumber" class="form-label">Номер автомобиля</label>
+                            <input type="text" th:field="*{vehicle.number}" class="form-control vehicleNumber"
+                                   id="vehicleNumber"
+                                   pattern="^[а-яА-ЯёЁ0-9a-zA-Z]{6}-[а-яА-ЯёЁ0-9a-zA-Z]{1}$" required="" name="vehicleNumber"
+                                   aria-describedby="vehicleNumber">
+                            <span th:if="${#fields.hasErrors('vehicle.number')}" th:errors="*{vehicle.number}"></span>
+                        </div>
+                        <br>
 
-    <label for="login">Login</label>
-    <input type="text" th:field="*{login}" id="login" placeholder="Login">
-    <span th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></span>
-    <br>
-
-    <label for="password">Password</label>
-    <input type="password" th:field="*{password}" id="password" placeholder="Password">
-    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-    <div th:if="${#fields.hasErrors('global')}">
-        <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error"></p>
+                        <div class="mb-3">
+                            <label for="type" class="form-label">Тип автомобиля</label>
+                            <select th:field="*{vehicle.type}" class="form-control vehicleType" id="type" name="type">
+                                <option value="MINIBUS">Minibus</option>
+                                <option value="BUS">Bus</option>
+                            </select>
+                            <span th:if="${#fields.hasErrors('vehicle.type')}" th:errors="*{vehicle.type}"></span>
+                        </div>
+                    </div>
+                    <div th:if="${#fields.hasErrors('global')}">
+                        <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error"></p>
+                    </div>
+                    <p style="color:red; font-weight: bold; font-size: x-large;" th:text="${message}"></p>
+                    <button type="submit" id="submit" class="btn btn-secondary">Отправить</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <br>
+</section>
 
-    <h2>Info about vehicle</h2>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
 
-    <br>
-    <label for="vehicleModel">Vehicle model</label>
-    <input type="text" th:field="*{vehicle.model}" id="vehicleModel" placeholder="Vehicle model">
-    <span th:if="${#fields.hasErrors('vehicle.model')}" th:errors="*{vehicle.model}"></span>
 
-    <br>
+<div th:insert="~{footer :: foot}"></div>
 
-    <label for="vehicleNumber">Vehicle number </label>
-    <input type="text" th:field="*{vehicle.number}" id="vehicleNumber" placeholder="Vehicle number">
-    <span th:if="${#fields.hasErrors('vehicle.number')}" th:errors="*{vehicle.number}"></span>
-    <br>
-
-    <label for="vehicleType">Vehicle type</label>
-    <select name="type" id="vehicleType" th:field="*{vehicle.type}" >
-        <option value="MINIBUS">Minibus</option>
-        <option value="BUS">Bus</option>
-    </select>
-
-    <br>
-
-    <input type="submit" value="Sign in!">
-
-</form>
-
-<br>
-<p><a href="/"><button>Back</button></a></p>
 </body>
 </html>

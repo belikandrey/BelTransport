@@ -5,6 +5,7 @@ import by.bsuir.beltransport.entity.Driver;
 import by.bsuir.beltransport.entity.Role;
 import by.bsuir.beltransport.entity.Status;
 import by.bsuir.beltransport.entity.User;
+import by.bsuir.beltransport.exception.EntityAlreadyExistsException;
 import by.bsuir.beltransport.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -82,7 +83,12 @@ public class HomeController {
       return "sign_in_client";
     }
     fillNewClientInfo(client);
-    final User saved = userService.save(client);
+    User saved = null;
+    try {
+      saved = userService.save(client);
+    } catch (EntityAlreadyExistsException e) {
+      e.printStackTrace();
+    }
     session.setAttribute("user", saved);
     return "redirect:/client";
   }
@@ -105,7 +111,12 @@ public class HomeController {
     }
     driver.setRole(Role.DRIVER);
     driver.setStatus(Status.ACTIVE);
-    final User saved = userService.save(driver);
+    User saved = null;
+    try {
+      saved = userService.save(driver);
+    } catch (EntityAlreadyExistsException e) {
+      e.printStackTrace();
+    }
     session.setAttribute("user", saved);
     return "redirect:/driver";
   }

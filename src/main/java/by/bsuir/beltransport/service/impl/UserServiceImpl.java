@@ -1,6 +1,7 @@
 package by.bsuir.beltransport.service.impl;
 
 import by.bsuir.beltransport.entity.User;
+import by.bsuir.beltransport.exception.EntityAlreadyExistsException;
 import by.bsuir.beltransport.persistance.UserRepository;
 import by.bsuir.beltransport.persistance.VehicleRepository;
 import by.bsuir.beltransport.service.UserService;
@@ -25,9 +26,17 @@ public class UserServiceImpl implements UserService {
     return Optional.ofNullable(
         userRepository.findUserByLoginAndPassword(user.getLogin(), user.getPassword()));
   }
+
+  public Optional<User> findByLogin(String login){
+    return userRepository.findUserByLogin(login);
+  }
+
   @Override
-  public User save(User user){
+  public User save(User user) throws EntityAlreadyExistsException {
+    if(userRepository.findUserByLogin(user.getLogin()).isPresent()){
+      throw new EntityAlreadyExistsException("User with login : "+user.getLogin()+" already exists");
+    }
     return userRepository.save(user);
-    //return userRepository.save(user);
+
   }
 }
