@@ -1,4 +1,4 @@
-create schema BelTransport;
+use kardymon_a_i;
 
 create table vehicles
 (
@@ -19,7 +19,7 @@ create table users
 
 create table drivers
 (
-    id           int         not null primary key auto_increment,
+    id           int         not null primary key,
     phone_number varchar(30) not null,
     vehicle_id   int         not null,
     foreign key (id)
@@ -30,7 +30,7 @@ create table drivers
 
 create table clients
 (
-    id           int         not null primary key auto_increment,
+    id           int         not null primary key,
     name         varchar(30) not null,
     surname      varchar(35) not null,
     email        varchar(40) not null,
@@ -52,16 +52,27 @@ create table rides
         references drivers (id)
 );
 
-create table payment(
-    id int not null primary key auto_increment,
+create table payment
+(
+    id           int         not null primary key auto_increment,
     payment_date datetime default now(),
-    price double not null ,
-    type varchar(15) not null
+    price        double      not null,
+    type         varchar(15) not null
 );
 
-create table orders(
-    id int not null primary key auto_increment,
-    ride_id int not null ,
-    client_id int not null ,
-    payment_id int not null
+create table orders
+(
+    id          int not null primary key auto_increment,
+    ride_id     int not null,
+    client_id   int not null,
+    payment_id  int not null,
+    sites       int not null default 1,
+    result      varchar(50)  default 'UNDEFINED',
+    create_date datetime     default NOW(),
+    foreign key (ride_id)
+        references rides (id),
+    foreign key (client_id)
+        references clients (id),
+    foreign key (payment_id)
+        references payment (id)
 );
