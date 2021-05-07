@@ -2,30 +2,52 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Create admin</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/home.css}"/>
+    <link rel="shortcut icon" th:href="@{/img/Buber_ico.ico}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
 </head>
 <body>
-<h1>Create admin!</h1>
+<div th:insert="~{admin_header :: head}"></div>
 
-<form action="#" th:action="@{/admin/create-admin}" th:object="${user}" method="post">
+<section class="taxi-background">
+    <div class="container">
+        <div class="row inpForm">
+            <h2 class="big-font">Создайте себе помощника!</h2>
+            <form action="#" th:action="@{/admin/create-admin}" th:object="${user}" method="post">
+                <div class="mb-3">
+                    <label for="login" class="form-label">Логин</label>
+                    <input type="text" th:field="*{login}" class="form-control login" id="login"
+                           pattern="^[а-яА-ЯёЁ0-9a-zA-Z]{3,35}$" required="" name="login" aria-describedby="loginHelp">
+                    <div style="color: red; font-weight: 500;" id="loginHelp" class="form-text">Мы никогда никому не
+                        передадим ваш логин.
+                    </div>
+                    <span th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Пароль</label>
+                    <input type="password" th:field="*{password}" pattern="^[а-яА-ЯёЁ0-9a-zA-Z]{3,35}$" required=""
+                           class="form-control" name="password" id="password">
+                    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                </div>
+                <div th:if="${#fields.hasErrors('global')}">
+                    <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error"></p>
+                </div>
+                <p style="color:red; font-weight: bold; font-size: x-large;" th:text="${message}"></p>
+                <button type="submit" id="submit" class="btn btn-secondary">Отправить</button>
+            </form>
+        </div>
+    </div>
+</section>
 
-  <label for="login">Login</label>
-  <input type="text" th:field="*{login}" id="login" placeholder="Login">
-  <span th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></span>
-  <br>
 
-  <label for="password">Password</label>
-  <input type="password" th:field="*{password}" id="password" placeholder="Password">
-  <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-  <div th:if="${#fields.hasErrors('global')}">
-    <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error"></p>
-  </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
 
 
-  <input type="submit" value="Create!">
-</form>
-<p><a href="/admin/"><button>Back</button></a></p>
-
-
+<div th:insert="~{footer :: foot}"></div>
 </body>
 </html>

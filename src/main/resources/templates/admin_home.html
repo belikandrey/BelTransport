@@ -1,31 +1,71 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"><head>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>Admin Home</h1>
+    <head>
+        <meta charset="UTF-8">
+        <title>Admin</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/home.css}"/>
+        <link rel="shortcut icon" th:href="@{/img/Buber_ico.ico}"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+              crossorigin="anonymous">
 
-<a href="/admin/ride">
-    <button>Create ride</button>
-</a>
-<br>
-<a href="/admin/edit-clients">
-    <button>Edit clients</button>
-</a>
-<br>
-<a href="/admin/edit-drivers">
-    <button>Edit drivers</button>
-</a>
-<br>
-<a href="/admin/create-admin">
-    <button>Create admin</button>
-</a>
-<br>
-<a href="/logout">
-    <button>Logout</button>
-</a>
+    </head>
+<body>
+<div th:insert="~{admin_header :: head}"></div>
+
+
+<section class="taxi-background" style="padding-bottom: 5%;">
+    <div class="container">
+        <div class="row">
+            <h1 class="big-font">Добро пожаловать , <span th:text="${session.admin.login}"></span></h1><br><br>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center" style="padding-left: 34%; margin-bottom: 5%;">
+            <div class="col-8">
+                <a href="/admin/ride">
+                    <button style="width: 35%; height: 130%;" type="button" class="btn btn-secondary">Создать поездку
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-around" style="padding-left: 12%;">
+            <div class="col-4">
+                <a href="/admin/edit-clients">
+                    <button style="width: 75%; height: 120%;" type="button" class="btn btn-secondary">Редактировать
+                        клиентов
+                    </button>
+                </a>
+            </div>
+            <div class="col-4">
+                <a href="/admin/edit-drivers">
+                    <button style="width: 75%; height: 120%;" type="button" class="btn btn-secondary">Редактировать
+                        водителей
+                    </button>
+                </a>
+            </div>
+            <div class="col-4">
+                <a href="/admin/create-admin">
+                    <button style="width: 75%; height: 120%;" type="button" class="btn btn-secondary">Создать админа
+                    </button>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+
+
+<div th:insert="~{footer :: foot}"></div>
+
 
 </body>
 </html>

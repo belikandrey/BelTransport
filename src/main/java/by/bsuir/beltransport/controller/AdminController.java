@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.Formatter;
 import java.util.List;
 
 @Controller
@@ -85,7 +86,7 @@ public class AdminController {
   public String showDriverById(@PathVariable Integer id, Model model) {
     try {
       Driver driver = driverService.findById(id);
-      Double revenue = driverService.findSummaryRevenue(driver.getId());
+      String revenue = String.format("%.2f", driverService.findSummaryRevenue(driver.getId()));
       model.addAttribute("driver", driver);
       model.addAttribute("revenue", revenue);
     } catch (EntityNotFoundException e) {
