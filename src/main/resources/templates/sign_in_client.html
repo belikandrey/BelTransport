@@ -54,7 +54,7 @@
                 <div class="mb-3">
                     <label for="login" class="form-label">Логин</label>
                     <input type="text" th:field="*{login}" class="form-control login" id="login"
-                           pattern="^[а-яА-ЯёЁ0-9a-zA-Z]{3,35}$" required="" name="login" aria-describedby="loginHelp">
+                           pattern="^[a-zA-Zа-яёА-Яё0-9_-]{3,35}$" required="" name="login" aria-describedby="loginHelp">
                     <div style="color: red; font-weight: 500;" id="loginHelp" class="form-text">Мы никогда никому не
                         передадим ваш логин.
                     </div>
