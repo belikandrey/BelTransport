@@ -1,50 +1,102 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"><head>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Ride</title>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+        <link rel="stylesheet" type="text/css"
+              href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css"
+              href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+              crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" th:href="@{/home.css}"/>
+        <link rel="shortcut icon" th:href="@{/img/Buber_ico.ico}"/>
+    </head>
 <body>
-<h1>Ride : </h1>
-<p>Start location </p><p th:text="${ride.startLocation}"></p>
-<p>End location</p><p th:text="${ride.endLocation}"></p>
-<p>Start date</p><p th:text="${ride.startDate}"></p>
-<p>End date</p><p th:text="${ride.endDate}"></p>
-<p>Price</p><p th:text="${ride.price}"></p>
-<p>Landing sites</p><p th:text="${ride.landingSides}"></p>
+<div th:insert="~{driver_header :: head}"></div>
 
-<h3>Clients info : </h3>
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Surname</th>
-        <th>Phone number</th>
-        <th>Bonus</th>
-        <th>Payment type</th>
-        <th>Result of order</th>
-    </tr>
-    <tr th:each="order : ${orders}">
-        <td th:text="${order.client.name}"></td>
-        <td th:text="${order.client.surname}"></td>
-        <td th:text="${order.client.phoneNumber}"></td>
-        <td th:text="${order.client.bonus}"></td>
-        <td th:text="${order.payment.type}"></td>
-        <td>
-            <form th:action="@{/driver/rides/order-status}" method="post">
-                <select name="result" id="result">
-                    <option value="CAME" selected>Came</option>
-                    <option value="DID_NOT_COME">Did not came</option>
-                    <option value="UNDEFINED">Undefined</option>
-                </select>
-                <input hidden th:name="order_id" th:value="${order.id}">
-                <button type="submit">Submit</button>
-            </form>
-        </td>
-    </tr>
-</table>
+<section class="taxi-background" style="padding-bottom: 5%;">
+    <h2 class="big-font">Информация о поездке</h2>
+    <div class="container">
+        <div class="row">
+            <h2 class="big-font middle-left">Откуда : <span th:text="${ride.startLocation}"></span></h2>
+            <h2 class="big-font  middle-left">Куда : <span th:text="${ride.endLocation}"></span></h2>
+            <br>
+            <h2 class="big-font middle-left">Начало поездки : <span th:text="${ride.startDate}"></span></h2>
+            <br>
+            <h2 class="big-font middle-left">Конец поездки : <span th:text="${ride.endDate}"></span></h2>
+            <br>
+            <h2 class="big-font middle-left">Цена : <span th:text="${ride.price}"></span>р.</h2>
+            <br>
+            <h2 class="big-font middle-left">Свободные места : <span th:text="${ride.landingSides}"></span></h2>
+            <br>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-left">
+            <h3 class="big-font">Клиенты</h3><br><br>
+            <table id="example" class="table table-striped table-bordered" style="width:100%; color:black;">
+                <thead>
+                <tr class="table-warning">
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Номер телефона</th>
+                    <th>Бонус</th>
+                    <th>Способ платежа</th>
+                    <th>Результат заказа</th>
+                </tr>
+                </thead>
+                <tbody style="color:black; font-weight: 700;">
+                <tr th:each="order : ${orders}">
+                    <td th:text="${order.client.name}"></td>
+                    <td th:text="${order.client.surname}"></td>
+                    <td th:text="${order.client.phoneNumber}"></td>
+                    <td th:text="${order.client.bonus}"></td>
+                    <td th:text="${order.payment.type}"></td>
+                    <td>
+                        <form th:action="@{/driver/rides/order-status}" method="post">
+                            <select style="bottom: 20px" class="form-control type" name="result" id="result">
+                                <option value="CAME">Пришел</option>
+                                <option value="DID_NOT_COME">Не пришел</option>
+                                <option value="UNDEFINED" selected>Пока что неизвестно</option>
+                            </select>
+                            <input hidden th:name="order_id" th:value="${order.id}">
+                            <input hidden th:name="ride_id" th:value="${order.ride.id}">
+                            <button class="btn btn-success" type="submit">Подтвердить</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr class="table-warning">
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Номер телефона</th>
+                    <th>Бонус</th>
+                    <th>Способ платежа</th>
+                    <th>Результат заказа</th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</section>
 
-<p><a href="/driver/rides"><button>Back</button></a></p>
 
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+
+</script>
+
+
+<div th:insert="~{footer :: foot}"></div>
 
 </body>
 </html>

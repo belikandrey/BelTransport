@@ -106,11 +106,12 @@ public class DriverController {
   public String editStatus(@RequestBody MultiValueMap<String, String> params){
     final OrderResult result = OrderResult.valueOf(params.getFirst("result"));
     final Integer order_id = Integer.valueOf(params.getFirst("order_id"));
+    final Integer ride_id = Integer.valueOf(params.getFirst("ride_id"));
     try {
       driverService.editStatus(result, order_id);
     } catch (EntityNotFoundException e) {
       e.printStackTrace();
     }
-    return "driver_home";
+    return "redirect:/driver/rides/"+ride_id;
   }
 }

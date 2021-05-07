@@ -2,38 +2,87 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Next rides</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+          crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/home.css}"/>
+    <link rel="shortcut icon" th:href="@{/img/Buber_ico.ico}"/>
 </head>
 <body>
-<h1>Next rides : </h1>
-<table>
-  <tr>
-    <th>Start location</th>
-    <th>End location</th>
-    <th>Start date</th>
-    <th>End date</th>
-    <th>Price</th>
-    <th>Landing sites</th>
-    <th>Vehicle type</th>
-    <th>Vehicle model</th>
-    <th>Vehicle number</th>
-    <th>Action</th>
-  </tr>
-  <tr th:each="ride : ${rides}">
-    <td th:text="${ride.startLocation}"></td>
-    <td th:text="${ride.endLocation}"></td>
-    <td th:text="${ride.startDate}"></td>
-    <td th:text="${ride.endDate}"></td>
-    <td th:text="${ride.price}"></td>
-    <td th:text="${ride.landingSides}"></td>
-    <td th:text="${ride.driverByDriverId.vehicle.type}"></td>
-    <td th:text="${ride.driverByDriverId.vehicle.model}"></td>
-    <td th:text="${ride.driverByDriverId.vehicle.number}"></td>
-    <td><a th:href="@{/driver/rides/{rideId}(rideId=${ride.id})}"><button>Show</button></a></td>
-  </tr>
-</table>
+<div th:insert="~{driver_header :: head}"></div>
 
-<p><a href="/driver/"><button>Back</button></a></p>
+<section class="taxi-background" style="padding-bottom: 5%;">
+    <div class="container">
+        <div class="row">
+            <h1 class="big-font">Ваши поездки </h1><br><br>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-left">
+            <table id="example" class="table table-striped table-bordered" style="width:100%; color:black;">
+                <thead>
+                <tr class="table-warning">
+                    <th>Откуда</th>
+                    <th>Куда</th>
+                    <th>Начало поездки</th>
+                    <th>Конец поездки</th>
+                    <th>Цена</th>
+                    <th>Свободные места</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody style="color:black; font-weight: 700;">
+                <tr th:each="ride : ${rides}">
+                    <td th:text="${ride.startLocation}"></td>
+                    <td th:text="${ride.endLocation}"></td>
+                    <td th:text="${ride.startDate}"></td>
+                    <td th:text="${ride.endDate}"></td>
+                    <td th:text="${ride.price}"></td>
+                    <td th:text="${ride.landingSides}"></td>
+                    <td><a th:href="@{/driver/rides/{rideId}(rideId=${ride.id})}">
+                        <button class="btn btn-success">Подробнее</button>
+                    </a></td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr class="table-warning">
+                    <th>Откуда</th>
+                    <th>Куда</th>
+                    <th>Начало поездки</th>
+                    <th>Конец поездки</th>
+                    <th>Цена</th>
+                    <th>Свободные места</th>
+                    <th>Action</th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</section>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+
+
+
+
+
+
+</script>
+
+
+<div th:insert="~{footer :: foot}"></div>
 
 
 </body>

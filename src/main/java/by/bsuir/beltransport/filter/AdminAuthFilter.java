@@ -24,7 +24,8 @@ public class AdminAuthFilter extends HttpFilter {
       final RequestDispatcher requestDispatcher = request.getRequestDispatcher("/");
       request.setAttribute("message", "You must log in before start");
       requestDispatcher.forward(request, response);
+    } else {
+      chain.doFilter(request, response);
     }
-    chain.doFilter(request, response);
   }
 }

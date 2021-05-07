@@ -26,7 +26,8 @@ public class ClientAuthFilter extends HttpFilter {
       final RequestDispatcher requestDispatcher = request.getRequestDispatcher("/");
       request.setAttribute("message", message);
       requestDispatcher.forward(request, response);
+    } else {
+      chain.doFilter(request, response);
     }
-    chain.doFilter(request, response);
   }
 }

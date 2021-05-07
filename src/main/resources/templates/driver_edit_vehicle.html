@@ -3,34 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit vehicle</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/home.css}"/>
+    <link rel="shortcut icon" th:href="@{/img/Buber_ico.ico}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+          crossorigin="anonymous">
 </head>
 <body>
 
-<h1>Edit vehicle info!</h1>
+<div th:insert="~{driver_header :: head}"></div>
 
-<form action="#" th:action="@{/driver/edit-vehicle}" th:object="${vehicle}" method="post">
-  <label for="number">Number</label>
-  <input type="text" th:field="*{number}" id="number" placeholder="Number">
-  <span th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></span>
+<section class="taxi-background">
+    <div class="container">
+        <div class="row">
+            <h2 class="big-font middle-left">Тип вашего авто : <span th:text="${session.driver.vehicle.type}"></span>
+            </h2>
+            <br>
+            <h2 class="big-font middle-left">Марка вашего авто : <span th:text="${session.driver.vehicle.model}"></span>
+            </h2>
+            <br>
+            <h2 class="big-font middle-left">Номер вашего авто : <span
+                    th:text="${session.driver.vehicle.number}"></span>
+            </h2>
+            <br>
+        </div>
+    </div>
+    <div class="container">
+        <form action="#" th:action="@{/driver/edit-vehicle}" th:object="${vehicle}" method="post">
+            <div class="row">
 
-  <br>
-  <label for="model">Model</label>
-  <input type="text" th:field="*{model}" id="model" placeholder="Model">
-  <span th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></span>
+                <div style="padding-left: 25%;" class="col col-lg-9">
 
-  <br>
-
-  <label for="type">Type</label>
-    <select name="type" th:field="*{type}" id="type">
-      <option value="MINIBUS" selected>Minibus</option>
-      <option value="BUS">Bus</option>
-    </select>
-
-  <input type="submit" value="Edit!">
-</form>
-<br>
-<p><a href="/driver/"><button>Back</button></a></p>
+                    <div class="mb-3">
+                        <label for="model" class="form-label">Модель автомобиля</label>
+                        <input type="text" th:field="*{model}" class="form-control model"
+                               id="model"
+                               pattern="^[а-яА-ЯёЁ0-9a-zA-Z]{3,35}$" required="" name="model">
+                        <span th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></span>
+                    </div>
 
 
+                    <div class="mb-3">
+                        <label for="number" class="form-label">Номер автомобиля</label>
+                        <input type="text" th:field="*{number}" class="form-control number"
+                               id="number"
+                               pattern="^[а-яА-ЯёЁ0-9a-zA-Z]{6}-[а-яА-ЯёЁ0-9a-zA-Z]{1}$" required="" name="number">
+                        <span th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></span>
+                    </div>
+                    <br>
+
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Тип автомобиля</label>
+                        <select th:field="*{type}" class="form-control type" id="type" name="type">
+                            <option value="MINIBUS">Minibus</option>
+                            <option value="BUS">Bus</option>
+                        </select>
+                        <span th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></span>
+                    </div>
+
+                    <div style="margin-top: 4%;margin-left: 30%;" class="row">
+                        <div style="" class="col-2">
+                            <button style=" width: 250px; height: 75px;" type="submit" class="btn btn-secondary">
+                                Подтвердить
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+
+
+<div th:insert="~{footer :: foot}"></div>
 </body>
 </html>
